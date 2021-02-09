@@ -47,28 +47,28 @@ export default {
   //     return { restaurants: []}
   //   }
   // },
-  created() {
-    console.log(db)
-    const response = db.collections('restaurants').get()
-    response.then(snapshot => {
-      snapshot.forEach((doc) => {
-        const restaurant = {
-          id: doc.id,
-          ...doc.data()
-        }
-        this.restaurants.push(restaurant)
-      })
-    }).catch(err => {
-        console.log(err)
-      })
+  // created() {
+  //   console.log(db)
+  //   const response = db.collections('restaurants').get()
+  //   response.then(snapshot => {
+  //     snapshot.forEach((doc) => {
+  //       const restaurant = {
+  //         id: doc.id,
+  //         ...doc.data()
+  //       }
+  //       this.restaurants.push(restaurant)
+  //     })
+  //   }).catch(err => {
+  //       console.log(err)
+  //     })
 
-  },
-  // async created(){
-  //   const response = await api.getRestaurants()
-  //   if (response.status == 200) {
-  //     this.restaurants = response.data
-  //   }
   // },
+  async created(){
+    const response = await api.getRestaurants()
+    if (response.status == 200) {
+      this.restaurants = response.data
+    }
+  },
   data() {
     return {
       likes : 0,

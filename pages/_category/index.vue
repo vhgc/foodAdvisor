@@ -42,36 +42,36 @@ export default {
   components: {
     RestaurantCard: () => import('@/components/Restaurantecard'),
   },
-  async created() {
-    await bd
-      .collection('restaurants')
-      .where('category', '==', this.$route.params.category)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          this.restaurants.push(doc.data)
-        });
-      })
-  },
+  // async created() {
+  //   await bd
+  //     .collection('restaurants')
+  //     .where('category', '==', this.$route.params.category)
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       querySnapshot.forEach((doc) => {
+  //         this.restaurants.push(doc.data)
+  //       });
+  //     })
+  // },
   data() {
     return {
       restaurants: []
     }
+  },
+   async asyncData({ params }) {
+    try {
+      /* petición getRestaurantsByCategory() */
+      const payload = {
+        category: params.category
+      }
+
+      const { data } = await api.getRestantsByCategory(payload)
+      return { restaurants: data}
+
+    } catch (error) {
+      console.log({ statusCode: 404, message: 'Category not found' })
+    }
   }
-   // async asyncData({ params }) {
-  //   try {
-  //     /* petición getRestaurantsByCategory() */
-  //     const payload = {
-  //       category: params.category
-  //     }
-
-  //     const { data } = await api.getRestantsByCategory(payload)
-  //     return { restaurants: data}
-
-  //   } catch (error) {
-  //     console.log({ statusCode: 404, message: 'Category not found' })
-  //   }
-  // }
 }
 </script>
 <style>
